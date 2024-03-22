@@ -7,7 +7,8 @@ import {useDispatch,useSelector} from 'react-redux'
 import { getDataPerDate, getDataPerMonth, getDataPerYear, getNH4AverageData } from "../../apiCalls/dataApiCall";
 import { useEffect,useState } from "react";
 import { dataActions } from "../../slices/dataSlice";
-
+import { SidebarNav } from "../../components/SidebarNav";
+import TopBar from "../../components/TopBar";
 const NH4PredictionRates = () => {
   const dispatch=useDispatch();
   const {NH4DataPerDate,NH4DataPerMonth,NH4DataPerYear,recentNH4Year,NH4AverageRates}=useSelector(state=>state.data)
@@ -80,6 +81,13 @@ const NH4PredictionRates = () => {
   },[NH4DataPerMonth,NH4DataPerYear,recentNH4Year])
 
   return (
+    <div className="w-full flex">
+    <div className=" min-h-screen"><SidebarNav /> </div> 
+    <div className="flex flex-col gap-8 w-full">
+      <div className="top w-full h-[50px]">
+        <TopBar/>
+      </div>
+  <div className=" w-11/12 h-full flex flex-col  gap-5 mx-auto mb-12 ">
   <div className=" w-full h-full flex flex-col  gap-5 mx-auto ">
     <h1 className=" text-blue-900 text-2xl font-bold py-1">Global Dashboard</h1>
     <div className=" grid grid-cols-3 grid-rows-1  gap-10  ">
@@ -166,6 +174,9 @@ const NH4PredictionRates = () => {
     </div>
     </div>
     
+  </div>
+  </div>
+  </div>
   </div>
   )
 }

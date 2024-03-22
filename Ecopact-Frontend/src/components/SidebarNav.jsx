@@ -10,135 +10,16 @@ import AppLogo from '../../public/assets/logo.jpg'
 import { FaTableList } from "react-icons/fa6";
 import { ImStatsDots } from "react-icons/im";
 
-import { Link, useNavigate} from "react-router-dom";
+import { Link} from "react-router-dom";
 
 import { useSelector } from "react-redux";
-export const SidebarNav = ({
-  setDashboard,
-}) => {
+export const SidebarNav = () => {
   
   const { collapseSidebar } = useProSidebar();
   const LoggedUser=useSelector(state=>state.auth.user);
-  const navigateToUpdatePage = () =>{
-    navigate(`/users/edit/${LoggedUser.id}`);
-  }
-  const navigate=useNavigate();
-  const navigateToMainDashboard = () => {
-    const nav={
-      mainDashboard: true,
-      adminDashboard: false,
-      NH4HistoryDashboard: false,
-      PxOyHistoryDashboard: false,
-      NH4PredictionDashboard: false,
-      PxOyPredictionDashboard: false,
-      NO3HistoryDashboard:false,
-      NO3PredictionDashboard:false,
-    }
-    localStorage.setItem("menu",JSON.stringify(nav))
-    setDashboard(JSON.parse(localStorage.getItem("menu")));
-  };
-  const navigateToNH4HistoryDashboard = () => {
-    const nav={
-      mainDashboard: false,
-      adminDashboard: false,
-      NH4HistoryDashboard: true,
-      PxOyHistoryDashboard: false,
-      NH4PredictionDashboard: false,
-      PxOyPredictionDashboard: false,
-      NO3HistoryDashboard:false,
-      NO3PredictionDashboard:false,
-    }
-    localStorage.setItem("menu",JSON.stringify(nav))
-    setDashboard(JSON.parse(localStorage.getItem("menu")));
-    
-  };
-  const navigateToPxOyHistoryDashboard = () => {
-    const nav={
-      mainDashboard: false,
-      adminDashboard: false,
-      NH4HistoryDashboard: false,
-      PxOyHistoryDashboard: true,
-      NH4PredictionDashboard: false,
-      PxOyPredictionDashboard: false,
-      NO3HistoryDashboard:false,
-      NO3PredictionDashboard:false,
-    }
-    localStorage.setItem("menu",JSON.stringify(nav))
-    setDashboard(JSON.parse(localStorage.getItem("menu")));
-  };
-  const navigateToNH4PredictionDashboard = () => {
-    const nav={
-      mainDashboard: false,
-      adminDashboard: false,
-      NH4HistoryDashboard: false,
-      PxOyHistoryDashboard: false,
-      NH4PredictionDashboard: true,
-      PxOyPredictionDashboard: false,
-      NO3HistoryDashboard:false,
-      NO3PredictionDashboard:false,
-    }
-    localStorage.setItem("menu",JSON.stringify(nav))
-    setDashboard(JSON.parse(localStorage.getItem("menu")));
-  };
-  const navigateToPxOyPredictionDashboard = () => {
-    const nav={
-      mainDashboard: false,
-      adminDashboard: false,
-      NH4HistoryDashboard: false,
-      PxOyHistoryDashboard: false,
-      NH4PredictionDashboard: false,
-      PxOyPredictionDashboard: true,
-      NO3HistoryDashboard:false,
-      NO3PredictionDashboard:false,
-    }
-    localStorage.setItem("menu",JSON.stringify(nav))
-    setDashboard(JSON.parse(localStorage.getItem("menu")));
-  };
-  const navigateToAdminDashboard = () => {
-    const nav={
-      mainDashboard: false,
-      adminDashboard: true,
-      NH4HistoryDashboard: false,
-      PxOyHistoryDashboard: false,
-      NH4PredictionDashboard: false,
-      PxOyPredictionDashboard: false,
-      NO3HistoryDashboard:false,
-      NO3PredictionDashboard:false,
-    }
-    localStorage.setItem("menu",JSON.stringify(nav))
-    setDashboard(JSON.parse(localStorage.getItem("menu")));
-  };
-
-  const navigateToNO3HistoryDashboard = () => {
-    const nav={
-      mainDashboard: false,
-      adminDashboard: false,
-      NH4HistoryDashboard: false,
-      PxOyHistoryDashboard: false,
-      NH4PredictionDashboard: false,
-      PxOyPredictionDashboard: false,
-      NO3HistoryDashboard:true,
-      NO3PredictionDashboard:false,
-    }
-    localStorage.setItem("menu",JSON.stringify(nav))
-    setDashboard(JSON.parse(localStorage.getItem("menu")));
-  };
-  const navigateToNO3PredictionDashboard = () => {
-    const nav={
-      mainDashboard: false,
-      adminDashboard: false,
-      NH4HistoryDashboard: false,
-      PxOyHistoryDashboard: false,
-      NH4PredictionDashboard: false,
-      PxOyPredictionDashboard: false,
-      NO3HistoryDashboard:false,
-      NO3PredictionDashboard:true,
-    }
-    localStorage.setItem("menu",JSON.stringify(nav))
-    setDashboard(JSON.parse(localStorage.getItem("menu")));
-  };
+  
   return (
-    <div id="sidebar" style={({ height: "100vh" }, { display: "flex" })}>
+    <div id="sidebar" className="h-full" style={({ height: "100vh" }, { display: "flex" })}>
       <Sidebar backgroundColor="rgb(16 22 36)">
         <Menu>
         <MenuItem className="text-white text-center text-xl font-semibold" id="item" icon={
@@ -148,26 +29,24 @@ export const SidebarNav = ({
             icon={<MenuOutlinedIcon className="text-white"/>}
             onClick={() => {
               collapseSidebar();
-            }}
-            
+            }} 
           >
             {" "}
-            
-          
           </MenuItem >
-          <MenuItem onClick={navigateToUpdatePage} className="text-white bg-blue-900" id="item" icon={<IoSettings className="text-xl"/>}>Update Profile</MenuItem>
-            
-          {LoggedUser?.isAdmin&&<MenuItem onClick={navigateToAdminDashboard} id="item" className="text-white" icon={<FaTableList />}>Admin Dashboard</MenuItem>}  
-          <MenuItem onClick={navigateToMainDashboard} id="item" className="text-white" icon={<FaTableList />}>Main Dashboard</MenuItem>
-          <SubMenu id="item" className="text-white" icon={<ImStatsDots />} label="Historical rates">
-                  <MenuItem onClick={navigateToNH4HistoryDashboard} className="sub bg-blue-950" icon={<IoAnalyticsOutline/>}>NH4 Historical Rates</MenuItem>
-                  <MenuItem onClick={navigateToPxOyHistoryDashboard} className="sub bg-blue-950" icon={<IoAnalyticsOutline />}>PxOy Historical Rates</MenuItem>
-                  <MenuItem onClick={navigateToNO3HistoryDashboard} className="sub bg-blue-950" icon={<IoAnalyticsOutline />}>NO3 Historical Rates</MenuItem>
+          
+          <Link to={`/users/edit/${LoggedUser.id}`}><MenuItem  className="text-white bg-blue-900" id="item" icon={<IoSettings className="text-xl"/>} label="Update Profile">Update Profile</MenuItem></Link> 
+          <Link to="/Dashboard"><MenuItem  className="text-white " id="item" icon={<FaTableList />} label="Main Dashboard">Main Dashboard</MenuItem></Link> 
+          
+          <SubMenu id="item" className="text-white " icon={<ImStatsDots />} label="Historical rates">
+                  <Link to="/Dashboard/NH4HistoyRates"><MenuItem  className="sub bg-blue-950" icon={<IoAnalyticsOutline/>}>NH4 Historical Rates</MenuItem></Link>
+                  <Link to="/Dashboard/PxOyHistoyRates"><MenuItem  className="sub bg-blue-950" icon={<IoAnalyticsOutline/>}>PxOy Historical Rates</MenuItem></Link>
+                  <Link to="/Dashboard/NO3HistoyRates"><MenuItem  className="sub bg-blue-950" icon={<IoAnalyticsOutline/>}>NO3 Historical Rates</MenuItem></Link>
+                  
           </SubMenu>
           <SubMenu id="item" className="text-white" icon={<ImStatsDots />} label="Prediction rates">
-                  <MenuItem onClick={navigateToNH4PredictionDashboard} className="sub bg-blue-950" icon={<IoAnalyticsOutline />}>NH4 Prediction Rates</MenuItem>
-                  <MenuItem onClick={navigateToPxOyPredictionDashboard} className="sub bg-blue-950" icon={<IoAnalyticsOutline />}>PxOy Prediction Rates</MenuItem>
-                  <MenuItem onClick={navigateToNO3PredictionDashboard} className="sub bg-blue-950" icon={<IoAnalyticsOutline />}>NO3 Prediction Rates</MenuItem>
+                  <Link to="/Dashboard/NH4PredictionRates"><MenuItem  className="sub bg-blue-950" icon={<IoAnalyticsOutline/>}>NH4 Prediction Rates</MenuItem></Link>
+                  <Link to="/Dashboard/PxOyPredictionRates"><MenuItem  className="sub bg-blue-950" icon={<IoAnalyticsOutline/>}>PxOy Prediction Rates</MenuItem></Link>
+                  <Link to="/Dashboard/NO3PredictionRates"><MenuItem  className="sub bg-blue-950" icon={<IoAnalyticsOutline/>}>NO3 Prediction Rates</MenuItem></Link>
           </SubMenu>
           
           <div className="absolute bottom-16 w-full">

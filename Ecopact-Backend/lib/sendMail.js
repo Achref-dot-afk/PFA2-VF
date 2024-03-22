@@ -7,8 +7,8 @@ module.exports = async function sendMail(data){
         port: 465,
         secure: true,
         auth: {
-          user: "achrefh1bli22@gmail.com", //change to Anpe host email
-          pass: "sjxn mscp cilu fubl",
+          user: 'achrefh1bli22@gmail.com', //change to Anpe host email
+          pass: 'sjxn mscp cilu fubl',
         },
       });
         const message = {
@@ -29,4 +29,3 @@ module.exports = async function sendMail(data){
         });
       
 }
-

@@ -7,6 +7,8 @@ import {useDispatch,useSelector} from 'react-redux'
 import { getDataPerDate, getDataPerMonth, getDataPerYear, getNO3AverageData } from "../../apiCalls/dataApiCall";
 import { useEffect,useState } from "react";
 import { dataActions } from "../../slices/dataSlice";
+import { SidebarNav } from "../../components/SidebarNav";
+import TopBar from "../../components/TopBar";
 
 
 const NO3HistoryRates = () => {
@@ -79,7 +81,13 @@ const NO3HistoryRates = () => {
       dispatch(getNO3AverageData());
     },[NO3DataPerMonth,NO3DataPerYear,recentNO3Year])
     return (
-    <div className=" w-full h-full flex flex-col  gap-5 mx-auto ">
+    <div className="w-full flex">
+       <div className=" min-h-screen"><SidebarNav /> </div> 
+        <div className="flex flex-col gap-8 w-full">
+          <div className="top w-full h-[50px]">
+            <TopBar/>
+          </div>
+      <div className=" w-11/12 h-full flex flex-col  gap-5 mx-auto mb-12 ">
       <h1 className=" text-blue-900 text-2xl font-bold py-1">Global Dashboard</h1>
       <div className=" grid grid-cols-3 grid-rows-1  gap-10  ">
         <div className="col-span-2 bg-gray-50 shadow-xl flex border rounded  items-start">
@@ -165,6 +173,8 @@ const NO3HistoryRates = () => {
       </div>
       </div>
       
+    </div>
+    </div>
     </div>
     )
 }
