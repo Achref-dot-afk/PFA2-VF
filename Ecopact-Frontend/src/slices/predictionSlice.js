@@ -25,59 +25,59 @@ const predictionSlice=createSlice({
     },
     reducers:{
         getNH4PredictionAverageRates:(state,action)=>{
-            state.NH4AverageRates=action.payload;
+            state.NH4PredictionAverageRates=action.payload;
         },
         getPxOyPredictionAverageRates:(state,action)=>{
-            state.PxOyAverageRates=action.payload;
+            state.PxOyPredictionAverageRates=action.payload;
         },
         getNO3PredictionAverageRates:(state,action)=>{
-            state.NO3AverageRates=action.payload;
+            state.NO3PredictionAverageRates=action.payload;
         },
         getNH4PredictionPerDate:(state,action)=>{
-            state.NH4DataPerDate=action.payload?.data?.dataRate;
+            state.NH4PredictionDataPerDate=action.payload?.data?.dataRate;
         },
         getPxOyPredictionPerDate:(state,action)=>{
-            state.PxOyDataPerDate=action.payload?.data?.dataRate;
+            state.PxOyPredictionDataPerDate=action.payload?.data?.dataRate;
         },
         getNO3PredictionPerDate:(state,action)=>{
-            state.NO3DataPerDate=action.payload?.data?.dataRate;
+            state.NO3PredictionDataPerDate=action.payload?.data?.dataRate;
         },
         setRecentNH4PredictionYear:(state,action)=>{
-            state.recentNH4Year=action.payload;
+            state.recentPredictionNH4Year=action.payload;
         },
         setRecentPxOyPredictionYear:(state,action)=>{
-            state.recentPxOyYear=action.payload;
+            state.recentPredictionPxOyYear=action.payload;
         },
         setRecentNO3PredictionYear:(state,action)=>{
-            state.recentNO3Year=action.payload;
+            state.recentPredictionNO3Year=action.payload;
         },
         getNH4RecentPredictionData:(state,action)=>{
-            state.NH4RecentData=action.payload;
+            state.NH4PredictionRecentData=action.payload;
         },
         getPxOyRecentPredictionData:(state,action)=>{
-            state.PxOyRecentData=action.payload;
+            state.PxOyPredictionRecentData=action.payload;
         },
         getNO3RecentPredictionData:(state,action)=>{
-            state.NO3RecentData=action.payload;
+            state.NO3PredictionRecentData=action.payload;
         },
        
         getNH4PredictionPerMonth:(state,action)=>{
-            state.NH4DataPerMonth=action.payload;
+            state.NH4PredictionDataPerMonth=action.payload;
         },
         getPxOyPredictionPerMonth:(state,action)=>{
-            state.PxOyDataPerMonth=action.payload;
+            state.PxOyPredictionDataPerMonth=action.payload;
         },
         getNO3PredictionPerMonth:(state,action)=>{
-            state.NO3DataPerMonth=action.payload;
+            state.NO3PredictionDataPerMonth=action.payload;
         },
         getNH4PredictionPerYear:(state,action)=>{
-            state.NH4DataPerYear=action.payload;
+            state.NH4PredictionDataPerYear=action.payload;
         },
         getPxOyPredictionPerYear:(state,action)=>{
-            state.PxOyDataPerYear=action.payload;
+            state.PxOyPredictionDataPerYear=action.payload;
         },
         getNO3PredictionPerYear:(state,action)=>{
-            state.NO3DataPerYear=action.payload;
+            state.NO3PredictionDataPerYear=action.payload;
         },
         getArrangements:(state,action)=>{
             state.Arrangements=action.payload;

@@ -114,6 +114,7 @@ const getPredictionDataPerMonth=(dataType,month,year)=>{
                 }else if(dataType==="NO3"){
                     dispatch(predictionActions.getNO3PredictionPerMonth(res.data));
                 }    
+                
         }catch(err){
             toast.error(err.response.data)
         }
@@ -128,6 +129,7 @@ const getArrangementsNumber=()=>{
                 headers: {
                     Authorization: "Bearer " + getState().auth.user.token, 
                 }})
+                
                
             dispatch(predictionActions.getArrangements(res.data));    
         }catch(err){

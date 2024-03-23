@@ -110,6 +110,8 @@ const NH4PredictionRates = () => {
         <div className="flex flex-col gap-3 px-2 py-2 border-2 border-gray-300 rounded shadow-xl bg-gray-50   col-span-1 text-blue-950">
           <p className="  font-bold">Global average rate</p>
           <div className="text-2xl font-bold ">{NH4PredictionAverageRates}</div>
+
+          
         </div>
         <div className="flex flex-col gap-3 px-2 py-2 border-2 rounded border-gray-300 shadow-xl bg-gray-50  col-span-1 text-blue-950">
           <p className="  font-bold">Threshold limit</p>
