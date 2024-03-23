@@ -1,5 +1,5 @@
 import request from './request';
-import { dataActions } from '../slices/dataSlice';
+import { predictionActions } from '../slices/predictionSlice';
 import { toast } from 'react-toastify';
 
 
@@ -7,19 +7,19 @@ import { toast } from 'react-toastify';
 const postPredictionFile = (file) => {
     return async (dispatch, getState) => {
       try {
-        const res = await request.post('/api/data/addPrediction', file, {
+        const res = await request.post('/api/prediction/addPrediction', file, {
           headers: {
             Authorization: "Bearer " + getState().auth.user.token,
             'Content-Type': "multipart/form-data"
           }
         });
         toast.success(res.data);
-        dispatch(getNH4AverageData());
-        dispatch(getPxOyAverageData());
-        dispatch(getNO3AverageData());
-        dispatch(getRecentData('NH4'));
-        dispatch(getRecentData('PxOy'));
-        dispatch(getRecentData('NO3'));
+        dispatch(getNH4AveragePredictionData());
+        dispatch(getPxOyAveragePredictionData());
+        dispatch(getNO3AveragePredictionData());
+        dispatch(getRecentPredictionData('NH4'));
+        dispatch(getRecentPredictionData('PxOy'));
+        dispatch(getRecentPredictionData('NO3'));
         dispatch(getArrangementsNumber());
       } catch (err) {
         toast.error(err?.response?.data)
@@ -31,13 +31,13 @@ const getNH4AveragePredictionData=()=>{
     return async (dispatch,getState)=>{
         try{
             
-            const res= await request.get(`/api/data/averageprediction/NH4`,{
+            const res= await request.get(`/api/prediction/averageprediction/NH4`,{
                 headers: {
                     Authorization: "Bearer " + getState().auth.user.token, 
                 }})
-            dispatch(dataActions.getNH4AverageRates(res.data?.averageRate));
+            dispatch(predictionActions.getNH4PredictionAverageRates(res.data?.averageRate));
         }catch(err){
-            //toast.error(err?.response?.data)
+            toast.error(err?.response?.data)
         }
     }
 }
@@ -46,11 +46,11 @@ const getPxOyAveragePredictionData=()=>{
     return async (dispatch,getState)=>{
         try{
             
-            const res= await request.get(`/api/data/averageprediction/PxOy`,{
+            const res= await request.get(`/api/prediction/averageprediction/PxOy`,{
                 headers: {
                     Authorization: "Bearer " + getState().auth.user.token, 
                 }})
-            dispatch(dataActions.getPxOyAverageRates(res.data?.averageRate));
+            dispatch(predictionActions.getPxOyPredictionAverageRates(res.data?.averageRate));
         }catch(err){
             //toast.error(err?.response?.data)
         }
@@ -61,11 +61,11 @@ const getNO3AveragePredictionData=()=>{
     return async (dispatch,getState)=>{
         try{
             
-            const res= await request.get(`/api/data/averageprediction/NO3`,{
+            const res= await request.get(`/api/prediction/averageprediction/NO3`,{
                 headers: {
                     Authorization: "Bearer " + getState().auth.user.token, 
                 }})
-            dispatch(dataActions.getNO3AverageRates(res.data?.averageRate));
+            dispatch(predictionActions.getNO3PredictionAverageRates(res.data?.averageRate));
         }catch(err){
             //toast.error(err?.response?.data)
         }
@@ -75,25 +75,25 @@ const getNO3AveragePredictionData=()=>{
 const getPredictionDataPerDate=(dataType,date)=>{
     return async (dispatch,getState)=>{
         try{
-            const res= await request.post(`/api/data/predictiondataPerDate`,{dataType,date},{
+            const res= await request.post(`/api/prediction/predictiondataPerDate`,{dataType,date},{
                 headers: {
                     Authorization: "Bearer " + getState().auth.user.token, 
                 }})
             if(dataType==="NH4"){
-                dispatch(dataActions.getNH4PerDate(res.data));    
+                dispatch(predictionActions.getNH4PredictionPerDate(res.data));    
             }else if(dataType==="PxOy"){
-                dispatch(dataActions.getPxOyPerDate(res.data));
+                dispatch(predictionActions.getPxOyPredictionPerDate(res.data));
             }else if(dataType==="NO3"){
-                dispatch(dataActions.getNO3PerDate(res.data));
+                dispatch(predictionActions.getNO3PredictionPerDate(res.data));
             }
         }catch(err){          
             toast.error(err.response.data)
             if(dataType==="NH4"){
-                dispatch(dataActions.getNH4PerDate(null));    
+                dispatch(predictionActions.getNH4PredictionPerDate(null));    
             }else if(dataType==="PxOy"){
-                dispatch(dataActions.getPxOyPerDate(null));
+                dispatch(dataActions.getPxOyPredictionPerDate(null));
             }else if(dataType==="NO3"){
-                dispatch(dataActions.getNO3PerDate(null));
+                dispatch(predictionActions.getNO3PredictionPerDate(null));
             }
         }
     }
@@ -103,16 +103,16 @@ const getPredictionDataPerMonth=(dataType,month,year)=>{
     return async (dispatch,getState)=>{
         try{
            
-            const res= await request.post(`/api/data/predictiondataPerMonth`,{dataType,month,year},{
+            const res= await request.post(`/api/prediction/predictiondataPerMonth`,{dataType,month,year},{
                 headers: {
                     Authorization: "Bearer " + getState().auth.user.token, 
                 }})
                 if(dataType==="NH4"){
-                    dispatch(dataActions.getNH4PerMonth(res.data));    
+                    dispatch(predictionActions.getNH4PredictionPerMonth(res.data));    
                 }else if(dataType==="PxOy"){
-                    dispatch(dataActions.getPxOyPerMonth(res.data));
+                    dispatch(predictionActions.getPxOyPredictionPerMonth(res.data));
                 }else if(dataType==="NO3"){
-                    dispatch(dataActions.getNO3PerMonth(res.data));
+                    dispatch(predictionActions.getNO3PredictionPerMonth(res.data));
                 }    
         }catch(err){
             toast.error(err.response.data)
@@ -124,12 +124,12 @@ const getArrangementsNumber=()=>{
     return async (dispatch,getState)=>{
         try{
            
-            const res= await request.get(`/api/data/arrangements`,{
+            const res= await request.get(`/api/prediction/arrangements`,{
                 headers: {
                     Authorization: "Bearer " + getState().auth.user.token, 
                 }})
                
-            dispatch(dataActions.getArrangements(res.data));    
+            dispatch(predictionActions.getArrangements(res.data));    
         }catch(err){
            // console.log(err)
         }
@@ -140,20 +140,43 @@ const getPredictionDataPerYear=(dataType,year)=>{
     return async (dispatch,getState)=>{
         try{
            
-            const res= await request.post(`/api/data/predictiondataPerYear`,{dataType,year},{
+            const res= await request.post(`/api/prediction/predictiondataPerYear`,{dataType,year},{
                 headers: {
                     Authorization: "Bearer " + getState().auth.user.token, 
                 }})
                 if(dataType==="NH4"){
-                    dispatch(dataActions.getNH4PerYear(res.data));    
+                    dispatch(predictionActions.getNH4PredictionPerYear(res.data));    
                 }else if(dataType==="PxOy"){
-                    dispatch(dataActions.getPxOyPerYear(res.data));
+                    dispatch(predictionActions.getPxOyPredictionPerYear(res.data));
                 }else if(dataType==="NO3"){
-                    dispatch(dataActions.getNO3PerYear(res.data));
-                }      
+                    dispatch(predictionActions.getNO3PredictionPerYear(res.data));
+                }    
+            
             
         }catch(err){
             toast.error(err.response.data)
+        }
+    }
+}
+
+const getRecentPredictionData=(dataType)=>{
+    return async (dispatch,getState)=>{
+        try{
+            
+            const res= await request.get(`/api/prediction/recentprediction/${dataType}`,{
+                headers: {
+                    Authorization: "Bearer " + getState().auth.user.token, 
+                }})
+                if(dataType==="NH4"){
+                    dispatch(predictionActions.getNH4RecentPredictionData(res.data));    
+                }else if(dataType==="PxOy"){
+                    dispatch(predictionActions.getPxOyRecentPredictionData(res.data));
+                }else if(dataType==="NO3"){
+                    dispatch(predictionActions.getNO3RecentPredictionData(res.data));
+                }    
+        }catch(err){
+           
+            //toast.error(err.response.data)
         }
     }
 }

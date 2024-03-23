@@ -4,14 +4,14 @@ import {yupResolver} from '@hookform/resolvers/yup'
 import PxOyLineChartPerMonth from "../../components/charts/PxOyLineChartPerMonth";
 import PxOyLineChartPerYear from "../../components/charts/PxOyLineChartPerYear";
 import {useDispatch,useSelector} from 'react-redux'
-import { getDataPerDate, getDataPerMonth, getDataPerYear, getPxOyAverageData } from "../../apiCalls/dataApiCall";
+import { getPredictionDataPerDate, getPredictionDataPerMonth, getPredictionDataPerYear, getPxOyAveragePredictionData } from "../../apiCalls/dataPredictionApiCall";
 import { useEffect,useState } from "react";
-import { dataActions } from "../../slices/dataSlice";
+import { predictionActions } from "../../slices/predictionSlice";
 import { SidebarNav } from "../../components/SidebarNav";
 import TopBar from "../../components/TopBar";
 const PxOyPredictionRates = () => {
   const dispatch=useDispatch();
-  const {PxOyDataPerDate,PxOyDataPerMonth,PxOyDataPerYear,recentPxOyYear,PxOyAverageRates}=useSelector(state=>state.data)
+  const {PxOyPredictionDataPerDate,PxOyPredictionDataPerMonth,PxOyPredictionDataPerYear,recentPredictionPxOyYear,PxOyPredictionAverageRates}=useSelector(state=>state.prediction)
   const [PxOyAverageRatePerMonth,setPxOyAverageRatePerMonth]=useState(null)
   const [PxOyRatesNumberPerMonth,setPxOyRatesNumberPerMonth]=useState(null)
   const [PxOyAverageRatePerYear,setPxOyAverageRatePerYear]=useState(null)
@@ -41,45 +41,45 @@ const PxOyPredictionRates = () => {
     let year = date.getFullYear();
     let month = date.getMonth() + 1;
     let day = date.getDate();
-    //dispatch(getPredictionDataPerDate('PxOy',year + '-' + (month < 10 ? '0' + month : month) + '-' + (day < 10 ? '0' + day : day)));
+    dispatch(getPredictionDataPerDate('PxOy',year + '-' + (month < 10 ? '0' + month : month) + '-' + (day < 10 ? '0' + day : day)));
   }
   const submitMonth=(data)=>{
     const [year,month]=data.month.split("-");
-    //dispatch(getPredictionDataPerMonth('PxOy',month,year))
+    dispatch(getPredictionDataPerMonth('PxOy',month,year))
   }
   const submitYear=(data)=>{
     const year=data.year;
-    dispatch(dataActions.setRecentPxOyYear(year))
-    //dispatch(getPredictionDataPerYear('PxOy',year));
+    dispatch(predictionActions.setRecentPxOyPredictionYear(year))
+    dispatch(getPredictionDataPerYear('PxOy',year));
   }
 
   const calculatePxOyAverageRateAndNumberPerMonth=()=>{
-    if(PxOyDataPerMonth.length!==0){
+    if(PxOyPredictionDataPerMonth.length!==0){
       let avg=0;
-      for(let i=0;i<PxOyDataPerMonth.length;i++){
-        avg+=PxOyDataPerMonth[i].data.dataRate;
+      for(let i=0;i<PxOyPredictionDataPerMonth.length;i++){
+        avg+=PxOyPredictionDataPerMonth[i].data.dataRate;
       }
-      avg=(avg/PxOyDataPerMonth.length).toFixed(2);
+      avg=(avg/PxOyPredictionDataPerMonth.length).toFixed(2);
       setPxOyAverageRatePerMonth(avg);
-      setPxOyRatesNumberPerMonth(PxOyDataPerMonth.length)
+      setPxOyRatesNumberPerMonth(PxOyPredictionDataPerMonth.length)
     }
   }
   const calculatePxOyAverageRateAndNumberPerYear=()=>{
-    if(PxOyDataPerYear.length!==0){
+    if(PxOyPredictionDataPerYear.length!==0){
       let avg=0;
-      for(let i=0;i<PxOyDataPerYear.length;i++){
-        avg+=PxOyDataPerYear[i].data.dataRate;
+      for(let i=0;i<PxOyPredictionDataPerYear.length;i++){
+        avg+=PxOyPredictionDataPerYear[i].data.dataRate;
       }
-      avg=(avg/PxOyDataPerYear.length).toFixed(2);
+      avg=(avg/PxOyPredictionDataPerYear.length).toFixed(2);
       setPxOyAverageRatePerYear(avg);
-      setPxOyRatesNumberPerYear(PxOyDataPerYear.length)
+      setPxOyRatesNumberPerYear(PxOyPredictionDataPerYear.length)
     }
   }
   useEffect(()=>{
     calculatePxOyAverageRateAndNumberPerMonth();
     calculatePxOyAverageRateAndNumberPerYear();
-    //dispatch(getPxOyPredictionData());
-  },[PxOyDataPerMonth,PxOyDataPerYear,recentPxOyYear])
+    dispatch(getPxOyAveragePredictionData());
+  },[PxOyPredictionDataPerMonth,PxOyPredictionDataPerYear,recentPredictionPxOyYear])
 
 
   return (
@@ -105,13 +105,13 @@ const PxOyPredictionRates = () => {
         </div>
         <div className="flex flex-col gap-2">
           <div className="text-blue-900 px-2 py-4 font-bold">Result</div>
-          { PxOyDataPerDate ? <div className="text-lg font-bold pl-4 ">{PxOyDataPerDate}</div> : <div className="text-lg pl-4">No data found</div> }
+          { PxOyPredictionDataPerDate ? <div className="text-lg font-bold pl-4 ">{PxOyPredictionDataPerDate}</div> : <div className="text-lg pl-4">No data found</div> }
         </div>
       </div>
       <div className="flex flex-col gap-1 w-2/3">
         <div className="flex flex-col gap-3 px-2 py-2 border-2 border-gray-300 rounded shadow-xl bg-gray-50   col-span-1 text-blue-950">
           <p className="  font-bold">Global average rate</p>
-          <div className="text-2xl font-bold ">{PxOyAverageRates}</div>
+          <div className="text-2xl font-bold ">{PxOyPredictionAverageRates}</div>
         </div>
         <div className="flex flex-col gap-3 px-2 py-2 border-2 rounded border-gray-300 shadow-xl bg-gray-50  col-span-1 text-blue-950">
           <p className="  font-bold">Threshold limit</p>
@@ -151,7 +151,7 @@ const PxOyPredictionRates = () => {
       <p className="text-xl  text-blue-900 ">Yearly analysis</p>
       <div className="grid grid-cols-3 grid-rows-1 gap-5 h-96">
       <div className="bg-gray-50 col-span-2  shadow-xl border-2">
-          <PxOyLineChartPerYear year={recentPxOyYear} />
+          <PxOyLineChartPerYear year={recentPredictionPxOyYear} />
       </div>
       <div className="bg-gray-50 flex flex-col gap-4 items-center w-full shadow-xl border-2">
           <form className="w-2/3  mt-4 flex flex-col  gap-2" onSubmit={handleSubmitYear(submitYear)}>

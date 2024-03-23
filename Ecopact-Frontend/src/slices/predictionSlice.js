@@ -15,6 +15,12 @@ const predictionSlice=createSlice({
         NH4PredictionDataPerYear:[],
         PxOyPredictionDataPerYear:[],
         NO3PredictionDataPerYear:[],
+        recentPredictionNH4Year:null,
+        recentPredictionPxOyYear:null,
+        recentPredictionNO3Year:null,
+        NH4PredictionRecentData:[],
+        PxOyPredictionRecentData:[],
+        NO3PredictionRecentData:[],
         Arrangements:[]
     },
     reducers:{

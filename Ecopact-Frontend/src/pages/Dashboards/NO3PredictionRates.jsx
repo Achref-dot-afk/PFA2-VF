@@ -4,16 +4,16 @@ import * as yup from 'yup'
 import {useForm} from 'react-hook-form'
 import {yupResolver} from '@hookform/resolvers/yup'
 import {useDispatch,useSelector} from 'react-redux'
-import { getDataPerDate, getDataPerMonth, getDataPerYear, getNO3AverageData } from "../../apiCalls/dataApiCall";
+import { getPredictionDataPerDate, getPredictionDataPerMonth, getPredictionDataPerYear, getNO3AveragePredictionData } from "../../apiCalls/dataPredictionApiCall";
 import { useEffect,useState } from "react";
-import { dataActions } from "../../slices/dataSlice";
+import { predictionActions } from "../../slices/predictionSlice";
 import { SidebarNav } from "../../components/SidebarNav";
 import TopBar from "../../components/TopBar";
 
 
 const NO3PredictionRates = () => {
   const dispatch=useDispatch();
-  const {NO3DataPerDate,NO3DataPerMonth,NO3DataPerYear,recentNO3Year,NO3AverageRates}=useSelector(state=>state.data)
+  const {NO3PredictionDataPerDate,NO3PredictionDataPerMonth,NO3PredictionDataPerYear,recentPredictionNO3Year,NO3PredictionAverageRates}=useSelector(state=>state.prediction)
   const [NO3AverageRatePerMonth,setNO3AverageRatePerMonth]=useState(null)
   const [NO3RatesNumberPerMonth,setNO3RatesNumberPerMonth]=useState(null)
   const [NO3AverageRatePerYear,setNO3AverageRatePerYear]=useState(null)
@@ -42,44 +42,44 @@ const NO3PredictionRates = () => {
     let year = date.getFullYear();
     let month = date.getMonth() + 1;
     let day = date.getDate();
-    //dispatch(getDataPredictionPerDate('NO3',year + '-' + (month < 10 ? '0' + month : month) + '-' + (day < 10 ? '0' + day : day)));
+    dispatch(getPredictionDataPerDate('NO3',year + '-' + (month < 10 ? '0' + month : month) + '-' + (day < 10 ? '0' + day : day)));
     }
     const submitMonth=(data)=>{
       const [year,month]=data.month.split("-");
-      //dispatch(getDataPredictionPerMonth('NO3',month,year))
+      dispatch(getPredictionDataPerMonth('NO3',month,year))
     }
     const submitYear=(data)=>{
       const year=data.year;
-      dispatch(dataActions.setRecentNO3Year(year))
-      //dispatch(getDataPredictionPerYear('NO3',year));
+      dispatch(predictionActions.setRecentNO3PredictionYear(year))
+      dispatch(getPredictionDataPerYear('NO3',year));
     }
     const calculateNO3AverageRateAndNumberPerMonth=()=>{
-      if(NO3DataPerMonth.length!==0){
+      if(NO3PredictionDataPerMonth.length!==0){
         let avg=0;
-        for(let i=0;i<NO3DataPerMonth.length;i++){
-          avg+=NO3DataPerMonth[i].data.dataRate;
+        for(let i=0;i<NO3PredictionDataPerMonth.length;i++){
+          avg+=NO3PredictionDataPerMonth[i].data.dataRate;
         }
-        avg=(avg/NO3DataPerMonth.length).toFixed(2);
+        avg=(avg/NO3PredictionDataPerMonth.length).toFixed(2);
         setNO3AverageRatePerMonth(avg);
-        setNO3RatesNumberPerMonth(NO3DataPerMonth.length)
+        setNO3RatesNumberPerMonth(NO3PredictionDataPerMonth.length)
       }
     }
     const calculateNO3AverageRateAndNumberPerYear=()=>{
-      if(NO3DataPerYear.length!==0){
+      if(NO3PredictionDataPerYear.length!==0){
         let avg=0;
-        for(let i=0;i<NO3DataPerYear.length;i++){
-          avg+=NO3DataPerYear[i].data.dataRate;
+        for(let i=0;i<NO3PredictionDataPerYear.length;i++){
+          avg+=NO3PredictionDataPerYear[i].data.dataRate;
         }
-        avg=(avg/NO3DataPerYear.length).toFixed(2);
+        avg=(avg/NO3PredictionDataPerYear.length).toFixed(2);
         setNO3AverageRatePerYear(avg);
-        setNO3RatesNumberPerYear(NO3DataPerYear.length)
+        setNO3RatesNumberPerYear(NO3PredictionDataPerYear.length)
       }
     }
     useEffect(()=>{
       calculateNO3AverageRateAndNumberPerMonth();
       calculateNO3AverageRateAndNumberPerYear();
-      //dispatch(getNO3PredictionAverageData());
-    },[NO3DataPerMonth,NO3DataPerYear,recentNO3Year])
+      dispatch(getNO3AveragePredictionData());
+    },[NO3PredictionDataPerMonth,NO3PredictionDataPerYear,recentPredictionNO3Year])
     return (
       <div className="w-full flex">
       <div className=" min-h-screen"><SidebarNav /> </div> 
@@ -102,13 +102,13 @@ const NO3PredictionRates = () => {
           </div>
           <div className="flex flex-col gap-2">
             <div className="text-blue-900 px-2 py-4 font-bold">Result</div>
-            { NO3DataPerDate ? <div className="text-lg font-bold pl-4 ">{NO3DataPerDate}</div> : <div className="text-lg pl-4">No data found</div> }
+            { NO3PredictionDataPerDate ? <div className="text-lg font-bold pl-4 ">{NO3PredictionDataPerDate}</div> : <div className="text-lg pl-4">No data found</div> }
           </div>
         </div>
         <div className="flex flex-col gap-1 w-2/3">
           <div className="flex flex-col gap-3 px-2 py-2 border-2 border-gray-300 rounded shadow-xl bg-gray-50   col-span-1 text-blue-950">
             <p className="  font-bold">Global average rate</p>
-            <div className="text-2xl font-bold ">{NO3AverageRates}</div>
+            <div className="text-2xl font-bold ">{NO3PredictionAverageRates}</div>
           </div>
           <div className="flex flex-col gap-3 px-2 py-2 border-2 rounded border-gray-300 shadow-xl bg-gray-50  col-span-1 text-blue-950">
             <p className="  font-bold">Threshold limit</p>
@@ -148,7 +148,7 @@ const NO3PredictionRates = () => {
         <p className="text-xl  text-blue-900 my-2">Yearly analysis</p>
         <div className="grid grid-cols-3 grid-rows-1 gap-5 h-96">
         <div className="bg-gray-50 col-span-2  shadow-xl border-2 ">
-            <NO3LineChartPerYear  year={recentNO3Year} />
+            <NO3LineChartPerYear  year={recentPredictionNO3Year} />
         </div>
         <div className="bg-gray-50 flex flex-col gap-4 items-center w-full shadow-xl border-2">
             <form className="w-2/3  mt-4 flex flex-col  gap-2" onSubmit={handleSubmitYear(submitYear)}>

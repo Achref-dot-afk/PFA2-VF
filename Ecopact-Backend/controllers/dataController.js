@@ -166,7 +166,7 @@ const getNumberArrangements=asyncHandler(async (req,res)=>{
    const userId=req.user.id;
    const NH4Number=await Data.countDocuments({user:userId,'data.dataName':'NH4'})
    const PxOyNumber=await Data.countDocuments({user:userId,'data.dataName':'PxOy'})
-   const SNumber=await Data.countDocuments({user:userId,'data.dataName':'S'})
+   const SNumber=await Data.countDocuments({user:userId,'data.dataName':'NO3'})
    res.status(200).send([NH4Number,PxOyNumber,SNumber])
 })
 

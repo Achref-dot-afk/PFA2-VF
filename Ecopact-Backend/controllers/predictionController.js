@@ -22,7 +22,7 @@ const addNewPredictionReport=asyncHandler(async(req,res)=>{
            },
            user:userId 
         })
-        const existingData=await Data.findOne({user:userId,date:timeSerie.date,'data.dataName':timeSerie.data.dataName});
+        const existingData=await Prediction.findOne({user:userId,date:timeSerie.date,'data.dataName':timeSerie.data.dataName});
         
         if(!existingData){
          await timeSerie.save()
@@ -36,8 +36,8 @@ const getAverageOfAllPredictionData=asyncHandler(async (req,res)=>{
       return res.status(400).send("No Prediction given");
    }
    const userId=req.user.id;
-   const prediction= await Prediction.find({user:userId,'data.dataName':dataType});
-   if(prediction.length ===0){
+   const data= await Prediction.find({user:userId,'data.dataName':dataType});
+   if(data.length ===0){
       return res.status(404).send("No Prediction found");
    }
    let avg=0;
@@ -92,5 +92,23 @@ const getPredictionDataPerYear=asyncHandler(async (req,res)=>{
    }
    res.status(200).send(filteredData); 
 })
+const getRecentPredictionData=asyncHandler(async (req,res)=>{
+   const userId=req.user.id;
+   const dataType=req.params.type;
+   const data= await Prediction.find({user:userId,'data.dataName':dataType}).sort({date:-1}).limit(15);
+   if(data.length ===0){
+      return res.status(404).send(`${dataType} is not found`);
+   }
+   const sortedArrayData = data.sort((a, b) => a.date - b.date)
+   res.status(200).send(sortedArrayData);
+})
+const getNumberArrangements=asyncHandler(async (req,res)=>{
+   const userId=req.user.id;
+   const NH4Number=await Prediction.countDocuments({user:userId,'data.dataName':'NH4'})
+   const PxOyNumber=await Prediction.countDocuments({user:userId,'data.dataName':'PxOy'})
+   const SNumber=await Prediction.countDocuments({user:userId,'data.dataName':'NO3'})
+   res.status(200).send([NH4Number,PxOyNumber,SNumber])
+})
 
-module.exports={addNewPredictionReport,getAverageOfAllPredictionData, getPredictionDataPerMonth, getPredictionDataPerYear,  getPredictionDataPerDate}
+
+module.exports={addNewPredictionReport,getAverageOfAllPredictionData, getPredictionDataPerMonth, getPredictionDataPerYear,getNumberArrangements,  getPredictionDataPerDate,getRecentPredictionData}
