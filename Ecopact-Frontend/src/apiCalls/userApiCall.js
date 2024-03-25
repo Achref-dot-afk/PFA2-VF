@@ -1,6 +1,7 @@
 import { toast } from 'react-toastify';
 import request from './request';
-
+import {useDispatch} from 'react-redux'
+import { authActions } from '../slices/authSlice';
 
 const getAllUsers=async()=>{
     try{
@@ -33,12 +34,17 @@ const DelUser = async (id, user) => {
 
 const UpdateUser = async (updated, id) => {
     try {
-        const res = await request.put(`/api/user/${id}`, updated, {
+        const res = await request.put(`/api/user/${id}`, updated.newUser, {
             headers: {
                 'Authorization': `Bearer ${updated.token}`
             }
         });
-
+        let user= JSON.parse(localStorage.getItem("user"));
+        user.firstName=res.data.firstName;
+        user.lastName=res.data.lastName;
+        user.email=res.data.email;
+        user.phoneNumber=res.data.phoneNumber;
+        localStorage.setItem("user",JSON.stringify(user))
         return res;
     } catch (err) {
         throw err; 
@@ -58,9 +64,9 @@ const SendVerifEmail = async(data) => {
     try {
         const res = await request.post('/api/user/storeOTP',data);
         if(res){
-            toast.success("Verification code sent");
+            toast.success("Verification code sent",{autoClose:1200});
         }else{
-            toast.error("Error while sending code");
+            toast.error("Error while sending code",{autoClose:1200});
         }
     } catch (err) {
         throw err;
@@ -72,7 +78,7 @@ const sendOTPCode = async(data) => {
         return res;
         
     } catch (err) {
-        toast.error("OTP code does not match");
+        toast.error("OTP code does not match",{autoClose:1200});
         throw err;
     
     }
@@ -83,7 +89,7 @@ const changePassword = async(data) => {
         return res;
         
     } catch (err) {
-        toast.error("Error while changing password");
+        toast.error("Error while changing password",{autoClose:1200});
         throw err;
     
     }

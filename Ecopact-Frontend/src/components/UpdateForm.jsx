@@ -1,39 +1,50 @@
-import {  useState } from 'react';
 import { Button, Label} from 'flowbite-react';
 import { useParams,useNavigate } from 'react-router-dom';
 import { useForm} from 'react-hook-form';
 import { toast } from 'react-toastify';
 import { UpdateUser } from '../apiCalls/userApiCall';
-import {useSelector} from 'react-redux'
+import {useSelector,useDispatch} from 'react-redux'
 import getImageType from '../utils/getImageType';
 import Profile from '../assets/profile.png'
+import { authActions } from '../slices/authSlice';
 
 function UpdateForm() {
   const user = useSelector(state=>state.auth.user);
+  const dispatch=useDispatch();
   const { id } = useParams();
-  const { register, handleSubmit } = useForm();
-  const [formData, setFormData] = useState({
-    firstName: '',
-    lastName: '',
-    email: '',
-    phoneNumber: ''
+  const { register, handleSubmit } = useForm({
+    defaultValues:{
+      firstName: user?.firstName || '',
+      lastName: user?.lastName || '',
+      email: user?.email || '',
+      phoneNumber: user?.phoneNumber || ''
+
+    }
   });
+  
+  
   const navigate=useNavigate()
-  const handleInputChange = (event) => {
-    const { name, value } = event.target;
-    setFormData({
-        ...formData,
-        [name]: value
-      });
-  };
+  
   const UpUser = async(NewUser)=>{
     try{
         const response = await UpdateUser(NewUser,id);
+        
         if (response && response.data) {
-            toast.success('User Updated successfully');
+            toast.success('User Updated successfully',{autoClose:1200});
+            const newUser={
+              ...user,
+              firstName:response.data.firstName,
+              lastName:response.data.lastName,
+              email:response.data.email,
+              password:response.data.password,
+              phoneNumber:response.data.phoneNumber,
+            }
+            
+            
+            dispatch(authActions.login(newUser))
             navigate('/Dashboard');
         } else {
-            toast.error('Failed to update user');
+            toast.error('Failed to update user',{autoClose:1200});
         }
     } catch (error) {
         
@@ -46,20 +57,9 @@ function UpdateForm() {
   }
 
 
-  const onSubmit = (event) => {
-    let UpdatedUser = {};
-    for (const key in formData) {
-        if (formData[key] === '') {
-            UpdatedUser[key] = user[key];
-        } else {
-            UpdatedUser[key] = formData[key];
-        }
-        UpdatedUser.token = user.token;
+  const onSubmit = (data) => {
         
-        
-    }
-    
-    UpUser(UpdatedUser);
+    UpUser({newUser:data,token:user.token});
   };
   const userProfile = user || {}; 
 
@@ -73,31 +73,31 @@ function UpdateForm() {
           <div className="mb-2 block">
             <Label htmlFor="fname" value="First Name" />
           </div>
-          <input id="fname"{...register('firstName')} name="firstName" className='border rounded border-blue-900 w-full px-4 py-2' placeholder={userProfile.firstName} onChange={handleInputChange}/>
+          <input id="fname"{...register('firstName')} name="firstName" className='border rounded border-blue-900 w-full px-4 py-2' placeholder={userProfile.firstName} />
         </div>
         <div>
           <div className="mb-2 block">
             <Label htmlFor="lname" value="Last Name" />
           </div>
-          <input id="lname" name='lastName' {...register('lastName')}  className='border rounded border-blue-900 w-full px-4 py-2' placeholder={userProfile.lastName} onChange={handleInputChange} />
+          <input id="lname" name='lastName' {...register('lastName')}  className='border rounded border-blue-900 w-full px-4 py-2' placeholder={userProfile.lastName}  />
         </div>
         <div>
           <div className="mb-2 block">
             <Label htmlFor="phone" value="Phone Number" />
           </div>
-          <input id="phone"  {...register('phoneNumber')} className='border rounded border-blue-900 w-full px-4 py-2' placeholder={userProfile.phoneNumber} onChange={handleInputChange}/>
+          <input id="phone" name='phoneNumber'  {...register('phoneNumber')} className='border rounded border-blue-900 w-full px-4 py-2' placeholder={userProfile.phoneNumber} />
         </div>
         <div>
           <div className="mb-2 block">
             <Label htmlFor="email" value="Email" />
           </div>
-          <input id="email"  {...register('email')} className='border rounded border-blue-900 w-full px-4 py-2' placeholder={userProfile.email} onChange={handleInputChange}/>
+          <input id="email" name='email'  {...register('email')} className='border rounded border-blue-900 w-full px-4 py-2' placeholder={userProfile.email} />
         </div>
         <div>
           <div className="mb-2 block">
             <Label htmlFor="password" value="Password" />
           </div>
-          <input id="password" {...register('password')} className='border rounded border-blue-900 w-full px-4 py-2' type='password' onChange={handleInputChange}/>
+          <input id="password" name='password' {...register('password')} className='border rounded border-blue-900 w-full px-4 py-2' type='password' />
         </div>
         <Button type="submit" className='bg-yellow-600 transition hover:bg-yellow-800'>Modify Account</Button>
       </form>
