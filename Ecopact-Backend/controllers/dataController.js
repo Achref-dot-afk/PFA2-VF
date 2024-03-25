@@ -36,11 +36,11 @@ const addNewReport=asyncHandler(async(req,res)=>{
         
         if(!existingData){
          await timeSerie.save()
-         if(timeSerie.data.dataName==="NH4" && timeSerie.data.dataRate>3){
+         if(timeSerie.data.dataName==="NH4" && timeSerie.data.dataRate>1){
             alertData.push(timeSerie._id);
-         }else if(timeSerie.data.dataName==="PxOy" && timeSerie.data.dataRate>2.5){
+         }else if(timeSerie.data.dataName==="PxOy" && timeSerie.data.dataRate>1){
             alertData.push(timeSerie._id);
-         }else if(timeSerie.data.dataName==="S" && timeSerie.data.dataRate>2.75){
+         }else if(timeSerie.data.dataName==="NO3" && timeSerie.data.dataRate>2.75){
             alertData.push(timeSerie._id);
          }
         }
@@ -166,9 +166,9 @@ const getNumberArrangements=asyncHandler(async (req,res)=>{
    const userId=req.user.id;
    const NH4Number=await Data.countDocuments({user:userId,'data.dataName':'NH4'})
    const PxOyNumber=await Data.countDocuments({user:userId,'data.dataName':'PxOy'})
-   const SNumber=await Data.countDocuments({user:userId,'data.dataName':'NO3'})
+   const NO3Number=await Data.countDocuments({user:userId,'data.dataName':'NO3'})
    res.status(200).send([NH4Number,PxOyNumber,SNumber])
-})
+});
 
 
 module.exports={addNewReport,getAverageOfAllData,getDataPerMonth,getDataPerYear,getDataPerDate,getRecentData,getNumberArrangements}

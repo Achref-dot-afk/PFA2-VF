@@ -9,22 +9,22 @@ const Navbar = () => {
   const nullifyUser = ()=>{
     dispatch(dataActions.getNH4AverageRates(0))
     dispatch(dataActions.getPxOyAverageRates(0))
-    dispatch(dataActions.getSAverageRates(0))
+    dispatch(dataActions.getNO3AverageRates(0))
     dispatch(dataActions.getNH4PerDate(null))
     dispatch(dataActions.getPxOyPerDate(null))
-    dispatch(dataActions.getSPerDate(null))
+    dispatch(dataActions.getNO3PerDate(null))
     dispatch(dataActions.getNH4PerMonth([]))
     dispatch(dataActions.getPxOyPerMonth([]))
-    dispatch(dataActions.getSPerMonth([]))
+    dispatch(dataActions.getNO3PerMonth([]))
     dispatch(dataActions.getNH4PerYear([]))
     dispatch(dataActions.getPxOyPerYear([]))
-    dispatch(dataActions.getSPerYear([]))
+    dispatch(dataActions.getNO3PerYear([]))
     dispatch(dataActions.setRecentNH4Year(null))
     dispatch(dataActions.setRecentPxOyYear(null))
-    dispatch(dataActions.setRecentSYear(null))
+    dispatch(dataActions.setRecentNO3Year(null))
     dispatch(dataActions.getNH4RecentData([]))
     dispatch(dataActions.getPxOyRecentData([]))
-    dispatch(dataActions.getSRecentData([]))
+    dispatch(dataActions.getNO3RecentData([]))
     dispatch(dataActions.getArrangements([]))
     dispatch(authActions.logout());
     localStorage.removeItem("user");
@@ -66,7 +66,7 @@ const Navbar = () => {
         { user && user?.isAdmin && <li
           className={`font-semibold cursor-pointer max-lg:pb-3 max-lg:hover:border-b border-yellow-400 hover:text-yellow-400 transition-all active:text-yellow-400`}
         >
-          <Link to="/AdminDashboard">Admin Dashboard</Link>
+          <Link to="/Admin">Admin Dashboard</Link>
           
         </li>}
         { user && <li

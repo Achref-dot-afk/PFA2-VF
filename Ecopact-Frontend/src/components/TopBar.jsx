@@ -8,9 +8,12 @@ import MenuListCompositionClient from './Boxes/MenuListCompositionClient';
 import getImageType from '../utils/getImageType';
 import Profile from '../assets/profile.png'
 import HomeOutlined from '@mui/icons-material/HomeOutlined';
+import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 
 const TopBar = () => {
+  const navigate = useNavigate();
   const user = useSelector(state=>state.auth.user);
   const dispatch=useDispatch();
   const nullifyUser = ()=>{
@@ -35,7 +38,12 @@ const TopBar = () => {
     dispatch(dataActions.getArrangements([]))
     dispatch(authActions.logout()); 
     localStorage.removeItem("user");
+    navigate("/");
+    
   }
+  useEffect(()=>{
+    console.log(user)
+  })
   return (
     <div className='flex justify-end items-center pr-12 h-full text-gray-300'>
       <div className='flex justify-around items-center h-full gap-6'>
@@ -59,7 +67,7 @@ const TopBar = () => {
         
         <div className='flex justify-around items-center gap-3'>
             <img src={user && user?.profilePhoto?.data ? getImageType(user.profilePhoto.data) : Profile} alt="Profile Photo" className={` w-9  my-2 h-9 rounded-full`} />
-            {user&&<Link to={`/users/details/${user?.id}`} className='font-semibold '>{user?.firstName} {user?.lastName}</Link>}
+            {user&&<Link to={`/users/details/${user?._id}`} className='font-semibold '>{user?.firstName} {user?.lastName}</Link>}
         </div>
       </div>
     </div>

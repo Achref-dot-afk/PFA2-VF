@@ -18,8 +18,7 @@ const Footer = () => {
                     <a className='social hover:text-blue-400 transition'><TiSocialLinkedin/></a>
                 </div>
                 <div className='text-white'>
-                Lorem ipsum, dolor sit amet consectetur adipisicing elit. Temporibus nulla rem, dignissimos iste aspernatur .
-                </div>
+                Ecopact provides several solutions for water resource monitoring.</div>
             </div>
             <ul className='box flex flex-col gap-5 max-sm:flex max-sm:flex-wrap'>
                 <div className='flex gap-2 items-center hover:translate-x-3 cursor-pointer transition '>
@@ -42,15 +41,15 @@ const Footer = () => {
             <div className='box flex flex-col gap-6'>
                 <div className='flex gap-2 items-center'>
                     <FaMapMarkerAlt className='text-yellow-600 text-2xl'/>
-                    <h3 className='text-white'>Egypt, Giza, Inside The Sphinx, Room Number 220</h3>
+                    <h3 className='text-white'>Tunis,Cité Essalem, Street 7051</h3>
                 </div>
                 <div className='flex gap-2 items-center '>
                     <IoTimeSharp className='text-yellow-600 text-2xl'/>
-                    <h3 className='text-white'>Business Hours: From 10:00 To 18:00</h3>
+                    <h3 className='text-white'>Business Hours: 24/24</h3>
                 </div>
                 <div className='flex gap-2 items-center'>
                     <FaPhoneVolume className='text-yellow-600 text-2xl'/>
-                    <h3 className='text-white'>+20123456789</h3>
+                    <h3 className='text-white'>+216 71 233 600</h3>
                 </div>
             </div>
             <div className='grid grid-cols-4 my-auto'>

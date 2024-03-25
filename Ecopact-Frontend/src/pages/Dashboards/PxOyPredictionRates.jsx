@@ -1,14 +1,15 @@
 import * as yup from 'yup'
 import {useForm} from 'react-hook-form'
 import {yupResolver} from '@hookform/resolvers/yup'
-import PxOyLineChartPerMonth from "../../components/charts/PxOyLineChartPerMonth";
-import PxOyLineChartPerYear from "../../components/charts/PxOyLineChartPerYear";
+import PxOyPredictionLineChartPerMonth from "../../components/predictionCharts/PxOyPredictionLineChartPerMonth";
+import PxOyPredictionLineChartPerYear from "../../components/predictionCharts/PxOyPredictionLineChartPerYear";
 import {useDispatch,useSelector} from 'react-redux'
 import { getPredictionDataPerDate, getPredictionDataPerMonth, getPredictionDataPerYear, getPxOyAveragePredictionData } from "../../apiCalls/dataPredictionApiCall";
 import { useEffect,useState } from "react";
 import { predictionActions } from "../../slices/predictionSlice";
 import { SidebarNav } from "../../components/SidebarNav";
 import TopBar from "../../components/TopBar";
+
 const PxOyPredictionRates = () => {
   const dispatch=useDispatch();
   const {PxOyPredictionDataPerDate,PxOyPredictionDataPerMonth,PxOyPredictionDataPerYear,recentPredictionPxOyYear,PxOyPredictionAverageRates}=useSelector(state=>state.prediction)
@@ -84,7 +85,6 @@ const PxOyPredictionRates = () => {
 
   return (
     <div className="w-full flex">
-    <div className=" min-h-screen"><SidebarNav /> </div> 
     <div className="flex flex-col gap-8 w-full">
       <div className="top w-full h-[50px]">
         <TopBar/>
@@ -123,7 +123,7 @@ const PxOyPredictionRates = () => {
       <p className="text-xl  text-blue-900 ">Monthly analysis</p>
       <div className="grid grid-cols-3 grid-rows-1 gap-5 h-80">
       <div className="bg-gray-50  col-span-2 shadow-xl border-2">
-          <PxOyLineChartPerMonth />
+          <PxOyPredictionLineChartPerMonth />
       </div>
       <div className="bg-gray-50 flex flex-col gap-4 items-center w-full shadow-xl border-2">
           <form className="w-2/3  mt-4 flex flex-col  gap-2" onSubmit={handleSubmitMonth(submitMonth)}>
@@ -151,14 +151,14 @@ const PxOyPredictionRates = () => {
       <p className="text-xl  text-blue-900 ">Yearly analysis</p>
       <div className="grid grid-cols-3 grid-rows-1 gap-5 h-96">
       <div className="bg-gray-50 col-span-2  shadow-xl border-2">
-          <PxOyLineChartPerYear year={recentPredictionPxOyYear} />
+          <PxOyPredictionLineChartPerYear year={recentPredictionPxOyYear} />
       </div>
       <div className="bg-gray-50 flex flex-col gap-4 items-center w-full shadow-xl border-2">
           <form className="w-2/3  mt-4 flex flex-col  gap-2" onSubmit={handleSubmitYear(submitYear)}>
             <label htmlFor="month" className="text-sm font-bold">Select Year</label>
             <div className="flex justify-between items-center w-full gap-2">
               <div className="flex flex-col h-full gap-1">
-                <input type="number" id="month" name="year" min="2022" className="outline-none w-11/12 flex h-full border-2 pl-2" {...registerYear("year")} />
+                <input type="number" id="month" name="year" min="1970" className="outline-none w-11/12 flex h-full border-2 pl-2" {...registerYear("year")} />
                 <p className=' text-sm text-red-700'>{errorsYear.month?.message}</p>
               </div>
               <div className="bg-green-600 hover:bg-green-400  text-white rounded-md p-1"><input type="submit" value="Get data" className="cursor-pointer text-sm" /></div>

@@ -82,7 +82,6 @@ const NO3HistoryRates = () => {
     },[NO3DataPerMonth,NO3DataPerYear,recentNO3Year])
     return (
     <div className="w-full flex">
-       <div className=" min-h-screen"><SidebarNav /> </div> 
         <div className="flex flex-col gap-8 w-full">
           <div className="top w-full h-[50px]">
             <TopBar/>
@@ -155,7 +154,7 @@ const NO3HistoryRates = () => {
               <label htmlFor="month" className="text-sm font-bold">Select Year</label>
               <div className="flex justify-between items-center w-full gap-2">
                 <div className="flex flex-col h-full gap-1">
-                  <input type="number" id="month" name="year" min="2022" className="outline-none w-11/12 flex h-full border-2 pl-2" {...registerYear("year")} />
+                  <input type="number" id="month" name="year" min="1970" className="outline-none w-11/12 flex h-full border-2 pl-2" {...registerYear("year")} />
                   <p className=' text-sm text-red-700'>{errorsYear.year?.message}</p>
                 </div>
                 <div className="bg-green-600 hover:bg-green-400  text-white rounded-md p-1"><input type="submit" value="Get data" className="cursor-pointer text-sm" /></div>

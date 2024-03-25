@@ -1,5 +1,5 @@
-import NO3LineChartPerMonth from "../../components/charts/NO3LineChartPerMonth";
-import NO3LineChartPerYear from "../../components/charts/NO3LineChartPerYear";
+import NO3PredictionLineChartPerMonth from "../../components/predictionCharts/NO3PredictionLineChartPerMonth";
+import NO3PredictionLineChartPerYear from "../../components/predictionCharts/NO3PredictionLineChartPerYear";
 import * as yup from 'yup'
 import {useForm} from 'react-hook-form'
 import {yupResolver} from '@hookform/resolvers/yup'
@@ -82,7 +82,6 @@ const NO3PredictionRates = () => {
     },[NO3PredictionDataPerMonth,NO3PredictionDataPerYear,recentPredictionNO3Year])
     return (
       <div className="w-full flex">
-      <div className=" min-h-screen"><SidebarNav /> </div> 
       <div className="flex flex-col gap-8 w-full">
         <div className="top w-full h-[50px]">
           <TopBar/>
@@ -120,7 +119,7 @@ const NO3PredictionRates = () => {
         <p className="text-xl  text-blue-900 ">Monthly analysis</p>
         <div className="grid grid-cols-3 grid-rows-1 gap-5 h-80">
         <div className="bg-gray-50  col-span-2 shadow-xl border-2">
-            <NO3LineChartPerMonth />
+            <NO3PredictionLineChartPerMonth />
         </div>
         <div className="bg-gray-50 flex flex-col gap-4 items-center w-full shadow-xl border-2">
             <form className="w-2/3  mt-4 flex flex-col  gap-2" onSubmit={handleSubmitMonth(submitMonth)}>
@@ -148,14 +147,14 @@ const NO3PredictionRates = () => {
         <p className="text-xl  text-blue-900 my-2">Yearly analysis</p>
         <div className="grid grid-cols-3 grid-rows-1 gap-5 h-96">
         <div className="bg-gray-50 col-span-2  shadow-xl border-2 ">
-            <NO3LineChartPerYear  year={recentPredictionNO3Year} />
+            <NO3PredictionLineChartPerYear  year={recentPredictionNO3Year} />
         </div>
         <div className="bg-gray-50 flex flex-col gap-4 items-center w-full shadow-xl border-2">
             <form className="w-2/3  mt-4 flex flex-col  gap-2" onSubmit={handleSubmitYear(submitYear)}>
               <label htmlFor="month" className="text-sm font-bold">Select Year</label>
               <div className="flex justify-between items-center w-full gap-2">
                 <div className="flex flex-col h-full gap-1">
-                  <input type="number" id="month" name="year" min="2022" className="outline-none w-11/12 flex h-full border-2 pl-2" {...registerYear("year")} />
+                  <input type="number" id="month" name="year" min="1970" className="outline-none w-11/12 flex h-full border-2 pl-2" {...registerYear("year")} />
                   <p className=' text-sm text-red-700'>{errorsYear.year?.message}</p>
                 </div>
                 <div className="bg-green-600 hover:bg-green-400  text-white rounded-md p-1"><input type="submit" value="Get data" className="cursor-pointer text-sm" /></div>

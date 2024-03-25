@@ -19,7 +19,7 @@ export const SidebarNav = () => {
   const LoggedUser=useSelector(state=>state.auth.user);
   
   return (
-    <div id="sidebar" className="h-full" style={({ height: "100vh" }, { display: "flex" })}>
+    <div id="sidebar" style={({ height: "100vh" }, { display: "flex" })}>
       <Sidebar backgroundColor="rgb(16 22 36)">
         <Menu>
         <MenuItem className="text-white text-center text-xl font-semibold" id="item" icon={

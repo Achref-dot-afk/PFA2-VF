@@ -3,6 +3,7 @@ import { MdEmail } from "react-icons/md";
 import { useForm } from 'react-hook-form';
 import { SendEmail } from "../apiCalls/userApiCall";
 import { toast } from "react-toastify";
+import { IoLinkSharp } from "react-icons/io5";
 
 const Contactform = () => {
   const SendM = async(data) =>{
@@ -36,16 +37,16 @@ const Contactform = () => {
                 </div>
               <div>
                 <h3 className="font-semibold">Phone</h3>
-                <p>+21698852004</p>
+                <p>+216 71 233 600</p>
               </div>
             </div>
             <div className="flex items-center gap-2">
               <div className="border p-3 text-xl rounded-full">
-                <MdEmail />
+                <IoLinkSharp />
               </div>
               <div>
-                <h3 className="font-semibold">Email</h3>
-                <p>+anpe@gmail.com</p>
+                <h3 className="font-semibold">Website</h3>
+                <p>https://anpe.nat.tn</p>
               </div>
             </div>
             <div className="flex items-center gap-2 ">

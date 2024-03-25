@@ -15,7 +15,7 @@ const DeleteUser = () => {
             const response = await DelUser(id, user);
             if (response && response.data) {
                 toast.success('User deleted successfully');
-                user?.isAdmin ? navigate('/AdminDashboard') : navigate('/Dashboard') 
+                user?.isAdmin ? navigate('/Admin') : navigate('/Dashboard') 
                 
             } else {
                 toast.error('Failed to delete user',{autoClose:1200});

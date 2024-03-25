@@ -26,6 +26,13 @@ const addNewPredictionReport=asyncHandler(async(req,res)=>{
         
         if(!existingData){
          await timeSerie.save()
+         if(timeSerie.data.dataName==="NH4" && timeSerie.data.dataRate>1){
+            alertData.push(timeSerie._id);
+         }else if(timeSerie.data.dataName==="PxOy" && timeSerie.data.dataRate>1){
+            alertData.push(timeSerie._id);
+         }else if(timeSerie.data.dataName==="NO3" && timeSerie.data.dataRate>2.75){
+            alertData.push(timeSerie._id);
+         }
         }
      }
      return res.status(200).send("file uploaded successfully");
